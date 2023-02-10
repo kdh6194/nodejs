@@ -1,5 +1,6 @@
 // hanbit.co.kr 사이트에서 '새로나온 책'에 대한 정보를 긁어오기
 // https://www.hanbit.co.kr/store/books/new_book_list.html
+// https://www.hanbit.co.kr/store/books/new_book_list.html
 
 //사용할 패키지 가져오기 : require(패키지명)
 const axios = require('axios'); //Ajax 라이브러리
@@ -47,7 +48,14 @@ async function main() { //비동기 I/O 지원 함수 정의
 
         // Array.from(변수명).forEach(()=>{
         //      console.log(dom(변수명).text());
-        // }) 이렇게 사용하면 값은 나오지만 엄청 많이 반복된다
+        // })
+        // 이렇게 사용하면 값은 나오지만 엄청 많이 반복된다
+        // 이유는 객체의 수(책 정보)만큼
+        // 해당 페이지의 모든 가격을 호출한다고 보면된다
+        // .each 나 .forEach 를 쓰면 될듯 싶다
+
+
+
 
 
         }

@@ -3,6 +3,7 @@
 
 
 const {Builder,Browser,By,Key,until, Select} = require('selenium-webdriver');
+const {elementLocated} = require("selenium-webdriver/lib/until");
 
 async function main() {
     const URL = 'https://k-apt.go.kr/';
@@ -71,8 +72,52 @@ async function main() {
             for(let i =0; i <pickss.length;++i) {
                 console.log(`${pickss[i]} ${Addr[i]}`)
             }
+            await chrome.sleep(1500);
 
-            await sleep(500);
+            // 아이파크 삼성동 항목을 찾아 인덱스값 추출
+            let idx = 0;
+            for(let apts of select5) {
+
+                console.log(`${idx++} ${await apts.getAttribute('textContent')}`)
+                // 각 개별 아파트이름 항목으로 마우스 포인터 이동
+                await chrome.actions().move({origin:select5[idx]}).perform();
+                if (await apts.getText() == apt) {break;}
+
+            }
+
+            // 추출한 인덱스 값을 이용해서 항목을 직접 클릭(여기선 리스트의 순번으로 찾으려고 하는듯)
+
+            // 위에 for문에서 idx값이 정해지고나서 멈춘뒤에 idx에 초기화하기 때문에
+            // idx값이 하나이다 (idx값이 여러개여서 배열이었다면 애당초 밑에 코드처럼 작성하면 안됨)
+            let clicks = await chrome.findElement(
+                By.css(`.mCSB_container ul li:nth-child(${idx}) a`));
+
+            await chrome.actions().move({origin:clicks}).click().perform();
+            // 주석처리된 구문도 작성시 정상적으로 작동된다
+            // await chrome.executeScript('arguments[0].click();',select5[--idx]);
+
+            // executeScript('arguments[원하는 인덱스].행동명령어',찾고자하는 변수명[idx에서 ++ 또는 --]);
+
+            //-------------------
+            //관리시설 정보 클릭
+            // xpath로 찾을때는 title에 텍스트를 "(큰따옴표)로 작성을 해야한다
+            //until 쓸때 제발 .(점) 좀 붙여서 써라
+            await chrome.wait(until.elementLocated(By.css('.lnbNav li:nth-child(3) a')),5000);
+
+
+            let click = await chrome.findElement(By.css('.lnbNav li:nth-child(3) a'));
+            await chrome.actions().move({origin:click}).click().perform();
+
+            await chrome.sleep(1500);
+            // 지상/지하 주차장 대수 추출
+            let pcnt = await chrome.findElement(By.css('#kaptd_pcnt')).getText();
+            let pcntu = await chrome.findElement(By.css('#kaptd_pcntu')).getText();
+            let tot = await chrome.findElement(By.css('#kaptd_total_pcnt')).getText();
+
+            // 숨겨진 녀석들은 getText()로 가져오면 되고
+            // 눈에 보이면 getAttribute()로 가져오면 됨
+            console.log(`지상 : ${pcnt}, 지하 : ${pcntu},총 주차댓수 : ${tot}`);
+             await chrome.sleep(1500);
 
     }catch (ex){
         console.log(ex);

@@ -104,7 +104,7 @@ async function main() {
             //until 쓸때 제발 .(점) 좀 붙여서 써라
             await chrome.wait(until.elementLocated(By.css('.lnbNav li:nth-child(3) a')),5000);
 
-
+            // 들어가는 동작이 실행이 안되서 밑에 구문이 제대로 동작하지않아 밑에서 찾는 정보를 못 찾은것이다
             let click = await chrome.findElement(By.css('.lnbNav li:nth-child(3) a'));
             await chrome.actions().move({origin:click}).click().perform();
 

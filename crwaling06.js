@@ -22,11 +22,11 @@ async function movie() { //비동기 I/O 지원 함수 정의
                 await chrome.get(URL);
 
                 // 특정 요소가 화면에 위치할때까지 최대 5초간 기다려 줌
-                await chrome.wait(until.elementLocated(By.css('.feature_home div:nth-child(3).slide_ranking .tit_item')),5000);
+                await chrome.wait(until.elementLocated(By.css('.feature_home div:nth-child(3).slide_ranking .tit_item')), 5000);
 
                 // 접속한 사이트의 html 소스를 가져옴
                 const html = await chrome.getPageSource();
-                console.log(html);
+                // console.log(html);
 
                 // 5초 정도 잠시 대기 -> 굳이 필요없어서 주석 처리 해버림
                 // await chrome.sleep(5000);
@@ -39,38 +39,38 @@ async function movie() { //비동기 I/O 지원 함수 정의
                 let avgs = dom('.feature_home div:nth-child(3).slide_ranking .txt_num:first-child');
                 let reserves = dom('.feature_home div:nth-child(3).slide_ranking .txt_num:last-child');
                 let ranks = dom('.feature_home div:nth-child(3).slide_ranking .rank_num');
-                        //클래스 안에 각각의 값이 입력 되어있지만 클래스 명이 같은 경우
-                        //:last-child와 :first-child를 입력하여 해당순번의 값을 가져온다
-                        // 그외에 여러개면 :nth-child(해당 순번)를 입력하면 된다
+                //클래스 안에 각각의 값이 입력 되어있지만 클래스 명이 같은 경우
+                //:last-child와 :first-child를 입력하여 해당순번의 값을 가져온다
+                // 그외에 여러개면 :nth-child(해당 순번)를 입력하면 된다
 
                 //추출한 결과를 저장하기 위한 배열 선언
                 let moviess = [], rankss = [], reservess = [], avgss = [];
 
                 // 추출된 영화제목 출력
-                movies.each((idx,movie)=>{
+                movies.each((idx, movie) => {
                         let point = dom(movie).text().trim()
                         // console.log(dom(movie).text().trim())
                         moviess.push(point)
                 }); // dom(movie).text 이렇게 쓰면 에러가 발생합니다(값 출력이 되지 않음)
-                avgs.each((idx,avg)=>{
+                avgs.each((idx, avg) => {
                         let point = dom(avg).text()
                         avgss.push(point)
                 })
-                reserves.each((idx,reserve)=>{
+                reserves.each((idx, reserve) => {
                         let point = dom(reserve).text()
                         reservess.push(point)
                 })
-                ranks.each((idx,rank)=>{
+                ranks.each((idx, rank) => {
                         let point = dom(rank).text()
                         rankss.push(point)
                 })
 
                 // 한번에 모아서 출력
-                for(let i = 0; i < moviess.length; ++i) {
+                for (let i = 0; i < moviess.length; ++i) {
                         console.log(`${moviess[i]},${rankss[i]},${reservess[i]},${avgss[i]}`)
                 }
 
-        } catch (ex){
+        }catch(ex){
                 console.log(ex);
         }finally {
                 await chrome.quit(); //크롬 브라우져를 닫아야 리소스를 줄일 수 있다.

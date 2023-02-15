@@ -1,12 +1,12 @@
-// 네이버 메일 갯수 확인
+// 네이버 자동 로그인
 
 const axios = require('axios');
 const {Builder,Browser,By,Key,until, promise} = require('selenium-webdriver');
 const ncp = require('copy-paste');
-const {elementLocated} = require("selenium-webdriver/lib/until");
+
 
 async function mail() {
-    const URL = 'https://www.naver.com/';
+    const URL = 'https://www.naver.com';
 
     const chrome = await new Builder(Browser.CHROME).forBrowser(Browser.CHROME).build();
 
@@ -49,9 +49,7 @@ async function mail() {
         await chrome.actions().move({origin : loginbtn1}).click().perform();
 
     // ------------------------------
-
-        let a = await count.getAttribute('textContent')
-       console.log(a.trim());
+        // 로그인후 메일 갯수 확인하기
 
 
     }catch (ex) {

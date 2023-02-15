@@ -86,7 +86,6 @@ async function main() {
             }
 
             // 추출한 인덱스 값을 이용해서 항목을 직접 클릭(여기선 리스트의 순번으로 찾으려고 하는듯)
-
             // 위에 for문에서 idx값이 정해지고나서 멈춘뒤에 idx에 초기화하기 때문에
             // idx값이 하나이다 (idx값이 여러개여서 배열이었다면 애당초 밑에 코드처럼 작성하면 안됨)
             let clicks = await chrome.findElement(

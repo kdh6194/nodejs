@@ -28,6 +28,7 @@ async function main() {
     const html = await axios.get(URL, {
         headers: headers
     });
+    //---------------------------------
     const dom = cheerio.load(html.data);
 
     let elements = dom('.book_tit');
@@ -44,7 +45,7 @@ async function main() {
     price.each((idx, price) => {
         prices.push(dom(price).text());
     })
-
+//-------------------------------------------------------
     for (let i = 0; i < titles.length; ++i) {
         let book = {};
         book.title = titles[i].trim();
@@ -52,7 +53,7 @@ async function main() {
         book.price = prices[i].replace(/[,|원]/g, '');
         books.push(book);
     }
-
+//-----------------------------------------------
     //오라클 테이블에 저장
     let conn = null;
     let sql ='insert into newbooks (title,writer,price)' +
@@ -68,6 +69,7 @@ async function main() {
             await conn.commit();
             console.log(result)
         }
+//--------------------------------------------------------------
 
     }catch (ex){
         console.log(ex);
